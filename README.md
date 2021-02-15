@@ -5,7 +5,7 @@ go-quic-proxy
 Very simple reverse proxy which can optionally enable using QUIC transport.
 
 ```shell
-go build main.go
+make
 
 # Without QUIC
 ./main -upstream https://something.domain.info/debug/
