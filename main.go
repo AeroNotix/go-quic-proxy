@@ -15,15 +15,6 @@ import (
 func NewProxy(target *url.URL, useQUIC bool) *httputil.ReverseProxy {
 	fmt.Printf("Proxying to %s, QUIC: %t\n", target.Host, useQUIC)
 
-	var qconf quic.Config
-	qconf.Versions = []quic.VersionNumber{
-		0xff00001d,
-	}
-
-	roundTripper := &http3.RoundTripper{
-		QuicConfig: &qconf,
-	}
-
 	rp := httputil.NewSingleHostReverseProxy(target)
 
 	director := rp.Director
@@ -33,6 +24,14 @@ func NewProxy(target *url.URL, useQUIC bool) *httputil.ReverseProxy {
 	}
 
 	if useQUIC {
+		var qconf quic.Config
+		qconf.Versions = []quic.VersionNumber{
+			0xff00001d,
+		}
+
+		roundTripper := &http3.RoundTripper{
+			QuicConfig: &qconf,
+		}
 		rp.Transport = roundTripper
 	}
 	return rp
