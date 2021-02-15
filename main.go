@@ -38,10 +38,12 @@ func NewProxy(target *url.URL, useQUIC bool) *httputil.ReverseProxy {
 }
 
 func main() {
+	var listenAddr string
 	var upstream string
 	var useQUIC bool
-	flag.StringVar(&upstream, "upstream", "", "Upstream server to proxy to")
 	flag.BoolVar(&useQUIC, "use-quic", false, "Use QUIC or not when proxying")
+	flag.StringVar(&listenAddr, "listen", ":9001", "Local port to listen on, in obnoxious Go syntax e.g. `:9001`")
+	flag.StringVar(&upstream, "upstream", "", "Upstream server to proxy to")
 	flag.Parse()
 	u, err := url.Parse(upstream)
 	if err != nil {
@@ -50,7 +52,7 @@ func main() {
 	proxy := NewProxy(u, useQUIC)
 	http.HandleFunc("/", proxy.ServeHTTP)
 	srv := &http.Server{
-		Addr: ":9001",
+		Addr: listenAddr,
 	}
 	if err := srv.ListenAndServe(); err != nil {
 		log.Println(err)
