@@ -1,3 +1,4 @@
 *.tar.gz
 main
 go-quic-proxy
+results.bin
