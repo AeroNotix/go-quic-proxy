@@ -12,6 +12,15 @@ import (
 	"github.com/lucas-clemente/quic-go/http3"
 )
 
+type QUICRoundTripper struct {
+	http3RoundTripper *http3.RoundTripper
+	http3RoundTripOpt http3.RoundTripOpt
+}
+
+func (qrt QUICRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
+	return qrt.http3RoundTripper.RoundTripOpt(req, qrt.http3RoundTripOpt)
+}
+
 func NewProxy(target *url.URL, useQUIC bool) *httputil.ReverseProxy {
 	fmt.Printf("Proxying to %s, QUIC: %t\n", target.Host, useQUIC)
 
@@ -24,13 +33,18 @@ func NewProxy(target *url.URL, useQUIC bool) *httputil.ReverseProxy {
 	}
 
 	if useQUIC {
-		var qconf quic.Config
-		qconf.Versions = []quic.VersionNumber{
-			0xff00001d,
+		qconf := quic.Config{
+			Versions: []quic.VersionNumber{
+				0xff00001d,
+			},
+			KeepAlive: true,
 		}
 
-		roundTripper := &http3.RoundTripper{
-			QuicConfig: &qconf,
+		roundTripper := &QUICRoundTripper{
+			http3RoundTripper: &http3.RoundTripper{
+				QuicConfig: &qconf,
+			},
+			http3RoundTripOpt: http3.RoundTripOpt{},
 		}
 		rp.Transport = roundTripper
 	}
