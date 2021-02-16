@@ -15,4 +15,10 @@ make
 
 # With QUIC
 ./main -upstream https://something.domain.info/debug/ -use-quic
+
+
+
+
+docker build -t test -f loader.dockerfile .
+docker run --rm --name go-quic-load-proxy  --cap-add=NET_ADMIN -p 8181:8181 -p 9001:9001 -p 9002:9002 test HOST_NAME_HERE
 ```
