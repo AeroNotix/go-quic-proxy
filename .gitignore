@@ -3,3 +3,4 @@ main
 go-quic-proxy
 *.bin
 *.html
+*.csv
