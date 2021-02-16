@@ -14,6 +14,7 @@ if [ -n "${1}" ]; then
     for ip in $(dig +short "${1}"); do
         tc filter add dev "${IFACE}" protocol ip parent 1:0 prio 3 u32 match ip dst "${ip}"/32 flowid 1:3
     done
+    tc filter add dev "${IFACE}" protocol ip parent 1:0 prio 3 u32 match ip dst "${1}"/32 flowid 1:3 || true
 fi
 
 tc filter add dev "${IFACE}" protocol ip parent 1:0 prio 3 u32 match ip dst 172.67.149.246/32 flowid 1:3
