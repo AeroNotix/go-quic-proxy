@@ -1,6 +1,6 @@
-#!/bin/bash 
+#!/bin/bash
 echo "QUIC"
-curl -w "@${BASH_SOURCE%/*}/curl-format.txt" -o /dev/null -s "http://localhost:9001/debug"
+curl -w "@${BASH_SOURCE%/*}/curl-format.txt" -o /dev/null -s "http://localhost:9002/debug"
 
-echo "HTTP" 
+echo "HTTP"
 curl -w "@${BASH_SOURCE%/*}/curl-format.txt" -o /dev/null -s "http://localhost:9001/debug"
