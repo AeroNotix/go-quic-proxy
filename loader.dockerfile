@@ -6,13 +6,13 @@ COPY go.mod go.sum ./
 
 RUN go mod download
 
-COPY . . 
+COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
 
 FROM debian:buster
 
-RUN apt-get update && apt-get install -y dumb-init net-tools curl nginx vim nano 
+RUN apt-get update && apt-get install -y dumb-init dnsutils net-tools curl nginx vim nano
 
 COPY --from=builder /app/go-quic-proxy /usr/bin/go-quic-proxy
 
