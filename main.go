@@ -55,6 +55,7 @@ func main() {
 	var listenAddr string
 	var upstream string
 	var useQUIC bool
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	flag.BoolVar(&useQUIC, "use-quic", false, "Use QUIC or not when proxying")
 	flag.StringVar(&listenAddr, "listen", ":9001", "Local port to listen on, in obnoxious Go syntax e.g. `:9001`")
 	flag.StringVar(&upstream, "upstream", "", "Upstream server to proxy to")
