@@ -16,5 +16,13 @@ make
 
 # Build test dockerfile, run test dockerfile
 docker build -t test -f dockerfiles/loader.dockerfile .
-docker run --rm --name go-quic-load-proxy  --cap-add=NET_ADMIN -p 8181:8181 -p 9001:9001 -p 9002:9002 test HOST_NAME_HERE
+docker run
+    --rm \
+    --name go-quic-load-proxy  \
+    --cap-add=NET_ADMIN \
+    -p 8181:8181 \
+    -p 9001:9001 \
+    -p 9002:9002 \
+    test \
+    HOST_NAME_HERE
 ```
