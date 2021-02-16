@@ -19,8 +19,8 @@ func NewProxy(target *url.URL, useQUIC bool) *httputil.ReverseProxy {
 
 	director := rp.Director
 	rp.Director = func(req *http.Request) {
-		req.Host = target.Host
 		director(req)
+		req.Host = target.Host
 	}
 
 	if useQUIC {
