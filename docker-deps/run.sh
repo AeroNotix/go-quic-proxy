@@ -9,5 +9,4 @@ go-quic-proxy -listen=:9002  -upstream "https://${1}/" &
 
 sed -i "s@\$HOST@${1}@g" /etc/nginx/sites-enabled/default
 
-nginx -g 'daemon off;' 
-
+nginx -g 'daemon off;'
